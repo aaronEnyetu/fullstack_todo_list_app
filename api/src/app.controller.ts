@@ -12,8 +12,9 @@ export class AppController {
     @Body('lastName') lastName: string,
   ) {
     console.log(firstName, lastName)
-    return await this.appService.addName(firstName, lastName)   
-   
+    return await this.appService.addName(firstName, lastName)
+    //console.log('BODY: ', name)
+    //return 'SUCCESS!';
   }
 
   @Get()
