@@ -1,6 +1,7 @@
-import {Box, Button, FormControl, FormErrorMessage, FormLabel, Heading, Input, Text} from "@chakra-ui/react"
+import {Box, Button, FormControl, FormErrorMessage, FormLabel, Heading, Input, Text, useToast} from "@chakra-ui/react"
 import axios from "axios"
 import { useState } from 'react'
+import { useNavigate } from "react-router-dom";
 
 
 // Data validation
@@ -22,6 +23,10 @@ const isInvalidPass2 = (pass1: string, pass2: string) => {
 }
 
 const SignUp = () => {
+    const navigate = useNavigate()
+    const toast = useToast()
+
+
     const [name, setName] = useState("")
     const [email, setEmail] = useState("")
     const [username, setUsername] = useState("")
@@ -103,7 +108,11 @@ const SignUp = () => {
                 password,
             })
                 .then((response) => {
-                    console.log("RESPONSE", response)
+                    // console.log("RESPONSE", response.data)
+                    const token = response.data
+                    localStorage.setItem("token", token)
+
+
                     setName("")
                     setEmail("")
                     setUsername("")
@@ -115,6 +124,15 @@ const SignUp = () => {
                     setSubmitClickedUsername(false)
                     setSubmitClickedPassword(false)
                     setSubmitClickedSecondPassword(false)
+
+                    navigate("/projects")
+                    toast({
+                        title: "Account created.",
+                        description: "We've created your account for you.",
+                        status: "success",
+                        duration: 3000,
+                        isClosable: true,
+                    })
             })
         }
     }
