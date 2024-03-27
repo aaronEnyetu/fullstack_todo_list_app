@@ -1,9 +1,10 @@
 /* eslint-disable prettier/prettier */
-import { Body, Controller, Post } from '@nestjs/common'
+import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common'
 import { AuthService } from './auth.service';
 import { IsEmail, IsNotEmpty } from 'class-validator';
 import * as sanitizeHTML from 'sanitize-html'
 import { Transform } from 'class-transformer';
+import { AuthGuard } from './auth.guard';
 
 
 export class SignUpDto {
@@ -30,5 +31,16 @@ export class AuthController {
   @Post('sign-up')
   signUP(@Body() signUpDto: SignUpDto) {
     return this.authService.signUp(signUpDto)
+  }
+
+  @UseGuards(AuthGuard)
+  @Get('user-details')
+  getUser(@Request() req) {
+
+    if (req.user) {
+      return req.user      
+    } else {
+      return 'no user'
+    }
   }
 }
