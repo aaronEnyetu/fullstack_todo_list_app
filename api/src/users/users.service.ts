@@ -12,13 +12,13 @@ export class UsersService {
     private userRepository: Repository<User>,
   ) {}
 
-//   async findUserByUsername(username: string) {
-//     return await this.userRepository.findOneBy({ username });
-//   }
+  async findUserByUsername(username: string) {
+    return await this.userRepository.findBy({ username });
+  }
 
-//   async findUserByEmail(email: string) {
-//     return await this.userRepository.findOneBy({ email });
-//   }
+  async findUserByEmail(email: string) {
+    return await this.userRepository.findBy({ email });
+  }
 
   async createUser(user: SignUpDto) {
     return await this.userRepository.save({ ...user });
