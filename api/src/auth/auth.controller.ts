@@ -53,14 +53,9 @@ export class AuthController {
     return this.authService.logIn(logInDto)
     }
 
-  @UseGuards(AuthGuard)
-  @Get('user-details')
-  getUser(@Request() req) {
-
-    if (req.user) {
-      return req.user      
-    } else {
-      return 'no user'
-    }
+    @UseGuards(AuthGuard)
+  @Get('profile')
+  getProfileData(@Request() req) {
+    return this.authService.getProfileData(req.user.username);
   }
 }
