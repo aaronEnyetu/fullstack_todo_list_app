@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt'
 import { JwtService } from '@nestjs/jwt';
@@ -27,14 +27,14 @@ export class AuthService {
       console.log('SIGN UP DTO: ', signUpDto);
     // return signUpDto
 //----Check if Username Already Exists-----
-    const usernameExists = (await this.userService.findUserByUsername(signUpDto.username)).length > 0
+    const usernameExists = (await this.userService.findUserByUsername(signUpDto.username))?.username
     console.log('USER: ', usernameExists)
 
 
 
 
     //-----Check if Email Already Exists-----
-    const emailExists = (await this.userService.findUserByEmail(signUpDto.email)).length > 0
+    const emailExists = (await this.userService.findUserByEmail(signUpDto.email))?.email
     console.log('EMAIL: ', emailExists)
 
 
@@ -65,8 +65,46 @@ export class AuthService {
     return await this.createAccessToken(user)
   }
 
+
+
+  async verifyPassword(enteredPassword: string, existingPassword: string) {
+    return await bcrypt.compare(enteredPassword, existingPassword)
+  }
+
   async logIn(logInDto: LogInDto) {
-    console.log(' LOG IN DTO', logInDto)
-    return 'fake_dto'
+    //check that user exists
+
+    const user = await this.userService.findUserByUsername(logInDto.username)
+    console.log('USER', user)
+    //If user doesn't exist, throw unauthorized error
+
+    //verify that passwords match
+    //If the passwords don't match, throw unauthorized error
+    if (user) {
+      const passwordsMatch = await this.verifyPassword(
+        logInDto.password,
+        user.password,
+      );
+      if (!passwordsMatch) {
+        throw new UnauthorizedException('incorrect password');
+      }
+    } else {
+      throw new UnauthorizedException('username does not exist');
+    }
+
+    return await this.createAccessToken(user);
+  }
+
+  async getProfileData(username: string) {
+    console.log('USERNAME: ', username);
+    const user = await this.userService.findUserByUsername(username);
+
+    //create and return an access token
+    // console.log(' LOG IN DTO', logInDto)
+    return {
+      email: user.email,
+      name: user.name,
+      username: user.username,
+    }
   }
 }
