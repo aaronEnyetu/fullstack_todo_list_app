@@ -36,8 +36,8 @@ function App() {
   
   return (
     <ChakraProvider>
-      <Header />
-      <Outlet/>
+      <Header loggedIn={loggedIn} />
+      <Outlet context={context} />
    </ChakraProvider>
   );
 }

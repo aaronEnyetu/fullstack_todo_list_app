@@ -6,14 +6,14 @@ const Profile = () => {
     const data = useLoaderData();
     const navigate = useNavigate();
     const toast = useToast();
-    // const context = useOutletContext() as Context;
+    const context = useOutletContext() as Context;
     
     console.log('LOADER DATA:', data)
 
 
   const logOut = () => {
     localStorage.removeItem("token");
-    // context.toggleLoggedIn();
+    context.toggleLoggedIn();
     navigate("/log-in");
     toast({
       title: "Success",

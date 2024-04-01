@@ -4,7 +4,7 @@ import {
     FormControl,
     FormErrorMessage,
     FormLabel,
-    Heading,
+    Text,
     Input,
     InputGroup,
     InputRightElement,
@@ -99,9 +99,9 @@ import {
   
     return (
       <Box>
-        <Heading textAlign="center" mb={4}>
+        <Text textAlign="center" mb={4}>
           Log into Your Account
-        </Heading>
+        </Text>
         <Box
           maxW="75%"
           display="flex"
