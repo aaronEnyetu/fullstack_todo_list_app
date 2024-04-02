@@ -8,7 +8,7 @@ const Profile = () => {
     const toast = useToast();
     const context = useOutletContext() as Context;
     
-    console.log('LOADER DATA:', data)
+    console.log('CONTEXT:', context)
 
 
   const logOut = () => {

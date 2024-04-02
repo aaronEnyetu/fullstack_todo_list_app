@@ -53,7 +53,7 @@ export class AuthController {
     return this.authService.logIn(logInDto)
     }
 
-    @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard)
   @Get('profile')
   getProfileData(@Request() req) {
     return this.authService.getProfileData(req.user.username);

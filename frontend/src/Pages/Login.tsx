@@ -13,12 +13,12 @@ import {
   import axios from "axios";
   import { useState } from "react";
   import { useNavigate, useOutletContext } from "react-router-dom";
-//   import { Context } from "../App";
+  import { Context } from "../App";
   
   const LogIn = () => {
     const navigate = useNavigate();
     const toast = useToast();
-    // const context = useOutletContext() as Context;
+    const context = useOutletContext() as Context;
   
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
@@ -61,7 +61,7 @@ import {
           })
           .then((response) => {
             const token = response.data;
-            // context.toggleLoggedIn();
+            context.toggleLoggedIn();
             localStorage.setItem("token", token);
   
             setUsername("");
